@@ -1,5 +1,5 @@
 from kiteconnect import KiteConnect
-from config.keys import get_api_key, get_api_secret
+from config.keys import get_api_key
 import webbrowser
 
 API_KEY = get_api_key()
