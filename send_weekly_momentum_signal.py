@@ -7,179 +7,175 @@ from email.mime.text import MIMEText
 from datetime import datetime, timedelta
 import os
 from config.keys import get_email_password
+from log_run import log_run
 
 # === Email Config ===
 EMAIL_SENDER = "yourlargecase@gmail.com"
 EMAIL_PASSWORD = get_email_password()
 EMAIL_RECEIVER = ["akashtaneja@gmail.com"]
 
-# === Settings ===
+# === Strategy Settings ===
 TOP_N = 10
 LOOKBACK_WEEKS = 12
 CASH_THRESHOLD = 4.5
 BUY_TIME_DESCRIPTION = "Monday 9:30 AM"
 
-# === Load local data ===
+# -----------------------------------------------------------------------------
+#  Helper: load local Zerodha CSVs
+# -----------------------------------------------------------------------------
 def load_local_price_data(tickers, start_date, end_date):
     data = {}
     for symbol in tickers:
-        file_path = f"./data/{symbol}.csv"
-        if not os.path.exists(file_path):
+        fp = f"./data/{symbol}.csv"
+        if not os.path.exists(fp):
             print(f"⚠️ {symbol}: file not found, skipping.")
             continue
 
-        df = pd.read_csv(file_path, parse_dates=["date"])
+        df = pd.read_csv(fp, parse_dates=["date"])
         df = df.set_index("date")
         start_ts = pd.to_datetime(start_date).tz_localize(None)
-        end_ts = pd.to_datetime(end_date).tz_localize(None)
-        df = df[(df.index.tz_localize(None) >= start_ts) & (df.index.tz_localize(None) <= end_ts)]
+        end_ts   = pd.to_datetime(end_date).tz_localize(None)
+        df = df[(df.index.tz_localize(None) >= start_ts) &
+                (df.index.tz_localize(None) <= end_ts)]
         df = df[["close"]].rename(columns={"close": symbol})
         data[symbol] = df
 
     merged = pd.concat(data.values(), axis=1, join="outer")
     merged.index = pd.to_datetime(merged.index)
-    merged = merged.sort_index()
-    return merged.dropna(axis=1, how="all")
+    return merged.sort_index().dropna(axis=1, how="all")
 
-# === Compute weekly data and score ===
+# -----------------------------------------------------------------------------
+#  Momentum helpers (unchanged)
+# -----------------------------------------------------------------------------
 def compute_weekly_signals(data, lookback):
-    weekly_data = data.resample('W-FRI').last()
-    weekly_returns = weekly_data.pct_change()
-    momentum = weekly_data.pct_change(lookback)
-    volatility = weekly_returns.rolling(window=lookback).std()
-    score = momentum / volatility
-    return weekly_data, score
+    weekly = data.resample("W-FRI").last()
+    weekly_ret = weekly.pct_change()
+    momentum   = weekly.pct_change(lookback)
+    volatility = weekly_ret.rolling(lookback).std()
+    score      = momentum / volatility
+    return weekly, score
 
-# === Backtest simulation ===
-def simulate_backtest(weekly_data, score, daily_data, lookback, top_n, threshold):
-    returns, dates, cash_flags, weights_record = [], [], [], []
-
+def simulate_backtest(weekly, score, daily, lookback, top_n, thresh):
+    returns, dates, cash_flags, weights_rec = [], [], [], []
     for i in range(lookback, len(score) - 1):
         signal_date = score.index[i]
-        next_monday = signal_date + timedelta(days=3)
-        if next_monday not in daily_data.index:
+        next_mon    = signal_date + timedelta(days=3)
+        if next_mon not in daily.index:
             continue
 
-        current_scores = score.iloc[i].dropna()
-        top = current_scores.sort_values(ascending=False).head(top_n)
-        avg_score = top.mean()
+        cur_scores = score.iloc[i].dropna()
+        top        = cur_scores.sort_values(ascending=False).head(top_n)
+        avg_score  = top.mean()
 
-        if avg_score < threshold:
-            returns.append(0.0)
-            cash_flags.append(True)
-            dates.append(next_monday)
-            weights_record.append(None)
+        if avg_score < thresh:
+            returns.append(0.0); cash_flags.append(True)
+            dates.append(next_mon); weights_rec.append(None)
             continue
 
         weights = top / top.sum()
 
         try:
-            monday_prices = daily_data.loc[next_monday, weights.index]
-            next_index = daily_data.index.get_loc(next_monday)
-            next_week_prices = daily_data.iloc[next_index + 5][weights.index]
-        except:
+            mon_prices   = daily.loc[next_mon, weights.index]
+            nxt_idx      = daily.index.get_loc(next_mon)
+            nxt_prices   = daily.iloc[nxt_idx + 5][weights.index]
+        except Exception:
             continue
 
-        ret = (next_week_prices / monday_prices - 1).fillna(0)
-        weekly_return = (ret * weights).sum()
+        ret = (nxt_prices / mon_prices - 1).fillna(0)
+        returns.append((ret * weights).sum())
+        cash_flags.append(False); dates.append(next_mon); weights_rec.append(weights)
 
-        returns.append(weekly_return)
-        cash_flags.append(False)
-        dates.append(next_monday)
-        weights_record.append(weights)
+    returns_s = pd.Series(returns, index=dates)
+    cumulative = (1 + returns_s).cumprod()
+    return returns_s, cumulative, cash_flags, weights_rec
 
-    returns_series = pd.Series(returns, index=dates)
-    cumulative = (1 + returns_series).cumprod()
-    return returns_series, cumulative, cash_flags, weights_record
-
-# === Generate trading signals ===
-def generate_trading_signals(latest_weights):
-    if latest_weights is None or latest_weights.empty:
+def generate_trading_signals(latest_wts):
+    if latest_wts is None or latest_wts.empty:
         return pd.DataFrame()
-    signals = pd.DataFrame({
-        "Stock": latest_weights.index,
-        "Final Desired Weight %": (latest_weights.values * 100).round(2)
+    return pd.DataFrame({
+        "Stock": latest_wts.index,
+        "Final Desired Weight %": (latest_wts.values * 100).round(2)
     })
-    return signals
 
-# === Plot backtest ===
-def plot_cumulative(cumulative, cash_flags, dates):
+# -----------------------------------------------------------------------------
+#  Plot & email helpers (unchanged, except CAGR label placeholder)
+# -----------------------------------------------------------------------------
+def plot_cumulative(cum, cash_flags, dates):
     plt.figure(figsize=(12, 6))
-    plt.plot(cumulative.index, cumulative.values, label='Portfolio Cumulative Returns')
-    cash_dates = [date for date, is_cash in zip(dates, cash_flags) if is_cash]
-    cash_values = cumulative.loc[cash_dates]
-    plt.scatter(cash_values.index, cash_values.values, color='red', marker='x', label='Cash Periods')
+    plt.plot(cum.index, cum.values, label="Portfolio Cumulative Returns")
+    cash_dates = [d for d, c in zip(dates, cash_flags) if c]
+    plt.scatter(cum.loc[cash_dates].index,
+                cum.loc[cash_dates].values,
+                color="red", marker="x", label="Cash Periods")
     plt.title("12-Week Momentum Strategy: Cumulative Return")
-    plt.xlabel("Date")
-    plt.ylabel("Cumulative Portfolio Value")
-    plt.grid(True)
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig("cumulative.png")
-    plt.close()
+    plt.xlabel("Date"); plt.ylabel("Cumulative Portfolio Value")
+    plt.grid(True); plt.legend(); plt.tight_layout()
+    plt.savefig("cumulative.png"); plt.close()
 
-# === Email Report ===
-def send_email_report(signals_table, cagr_text, drawdown_text):
+def send_email_report(tbl, cagr_label, dd_text):
     msg = MIMEMultipart()
-    msg['From'] = EMAIL_SENDER
-    msg['To'] = ", ".join(EMAIL_RECEIVER)
-    msg['Subject'] = "Weekly Momentum Signal - 12 Week Strategy"
+    msg["From"] = EMAIL_SENDER
+    msg["To"]   = ", ".join(EMAIL_RECEIVER)
+    msg["Subject"] = "Weekly Momentum Signal - 12-Week Lookback"
 
     html = f"""
     <h2>Weekly Momentum Trading Signals</h2>
     <p><b>Buy Time:</b> {BUY_TIME_DESCRIPTION}</p>
-    <p><b>CAGR:</b> {cagr_text}</p>
-    <p><b>Max Drawdown:</b> {drawdown_text}</p>
-    {signals_table.to_html(index=False)}
+    <p><b>{cagr_label}</b></p>
+    <p><b>Max Drawdown:</b> {dd_text}</p>
+    {tbl.to_html(index=False)}
     <br><img src='cid:cumulative_plot'>
     """
+    msg.attach(MIMEText(html, "html"))
 
-    msg.attach(MIMEText(html, 'html'))
+    with open("cumulative.png", "rb") as f:
+        from email.mime.image import MIMEImage
+        img = MIMEImage(f.read(), name="cumulative.png")
+        img.add_header("Content-ID", "<cumulative_plot>")
+        msg.attach(img)
 
-    with open("cumulative.png", 'rb') as f:
-        img = f.read()
-
-    from email.mime.image import MIMEImage
-    image = MIMEImage(img, name='cumulative.png')
-    image.add_header('Content-ID', '<cumulative_plot>')
-    msg.attach(image)
-
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login(EMAIL_SENDER, EMAIL_PASSWORD)
     server.sendmail(EMAIL_SENDER, EMAIL_RECEIVER, msg.as_string())
     server.quit()
 
-# === Main ===
+# -----------------------------------------------------------------------------
+#  MAIN
+# -----------------------------------------------------------------------------
 if __name__ == "__main__":
     try:
-        start_date = (datetime.today() - timedelta(days=5*365)).strftime("%Y-%m-%d")
-        end_date = datetime.today().strftime("%Y-%m-%d")
+        start_date = (datetime.today() - timedelta(days=5 * 365)).strftime("%Y-%m-%d")
+        end_date   = datetime.today().strftime("%Y-%m-%d")
 
-        print(f"📥 Loading ticker list from CSV...")
+        print("📥 Loading tickers …")
         tickers = pd.read_csv("ind_nifty200list.csv")["Symbol"].str.upper().tolist()
 
-        print(f"📊 Loading price data from local CSV files...")
-        daily_data = load_local_price_data(tickers, start_date, end_date)
+        print("📊 Loading price data …")
+        daily = load_local_price_data(tickers, start_date, end_date)
 
-        print(f"📈 Computing weekly scores and signals...")
-        weekly_data, score = compute_weekly_signals(daily_data, LOOKBACK_WEEKS)
+        print("📈 Computing signals …")
+        weekly, score = compute_weekly_signals(daily, LOOKBACK_WEEKS)
 
-        returns, cumulative, cash_flags, weights_record = simulate_backtest(
-            weekly_data, score, daily_data, LOOKBACK_WEEKS, TOP_N, CASH_THRESHOLD
+        returns, cum, cash_flags, weights_rec = simulate_backtest(
+            weekly, score, daily, LOOKBACK_WEEKS, TOP_N, CASH_THRESHOLD
         )
 
-        latest_weights = weights_record[-1]
-        signals_table = generate_trading_signals(latest_weights)
+        latest_wts   = weights_rec[-1]
+        signals_tbl  = generate_trading_signals(latest_wts)
+        log_run(weights_rec, daily, returns)
 
-        cagr = (cumulative.iloc[-1] ** (1/5)) - 1
-        cagr_text = f"{cagr:.2%}"
-        drawdown = (cumulative / cumulative.cummax() - 1).min()
-        drawdown_text = f"{drawdown:.2%}"
+        # --- Exact-span CAGR ---
+        span_years = (cum.index[-1] - cum.index[0]).days / 365
+        cagr       = (cum.iloc[-1] ** (1 / span_years)) - 1
+        cagr_label = f"CAGR ({span_years:.2f} yrs): {cagr:.2%}"
 
-        print(f"📤 Plotting and sending email...")
-        plot_cumulative(cumulative, cash_flags, returns.index)
-        send_email_report(signals_table, cagr_text, drawdown_text)
+        drawdown = (cum / cum.cummax() - 1).min()
+        dd_text  = f"{drawdown:.2%}"
+
+        print("📤 Plotting & emailing …")
+        plot_cumulative(cum, cash_flags, returns.index)
+        send_email_report(signals_tbl, cagr_label, dd_text)
 
         print("✅ Email sent successfully!")
 

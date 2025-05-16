@@ -164,3 +164,4 @@ access_token.txt
 ind_nifty200list.csv
 data/*.*
 *.png
+logs/*.*

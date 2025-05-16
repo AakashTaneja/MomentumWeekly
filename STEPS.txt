@@ -1,3 +1,4 @@
 1. Run kite_generate_request_url.py, login and get request_token
-2. Run kite_convert_token, provide request_token
-3. Run kite_download_data to get latest data
+2. Run kite_convert_token, provide request_token (access_token is available for a day.)
+3. Run kite_download_data to get latest data.
+4. Run send_weekly_momentum_signal to send signal in email.
