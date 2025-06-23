@@ -1,0 +1,46 @@
+A fully automated intraday trading system that:
+Scans Nifty 200 stocks for strong price + volume surges
+Simulates entries when conditions are met
+Monitors trades for stop loss or volume-based exit
+Tracks and logs P&L per trade
+
+
+
+. ind_nifty200list.csv
+What it contains:
+Your stock universe — a list of ~200 NSE tickers.
+Used by: All other scripts to decide which stocks to monitor.
+
+🧾 2. load_live_data.py
+Purpose: Load latest price/volume data from:
+✅ Live Kite API (during market hours)
+✅ Snapshot fallback (ltp_snapshot_last.csv) on weekends/off-market hours
+Key features:
+Auto-detects if market is open
+Saves fresh LTP data to CSV
+Filters positive gainers
+Returns top 50 stocks by volume
+
+🔍 3. momentum_scanner.py
+Purpose: Analyze the data returned from load_live_data.py and apply basic filters:
+✅ pct_change > 2
+✅ volume > 1,000,000
+✅ Sort by volume
+✅ Print top candidates
+Used for: Dry runs, weekend tests, and simple backtest logic.
+
+🚦 4. live_scanner.py
+Purpose: Real-time scanner that:
+✅ Uses live data from Kite (not fallback)
+✅ Fetches 10-day avg volume using kite.historical_data()
+✅ Applies entry conditions:
+pct_change > MIN_PCT_CHANGE
+volume > VOLUME_MULTIPLIER × 10-day avg volume
+
+
+| Script                 | Role                                       | Market Dependency | Uses Kite |
+| ---------------------- | ------------------------------------------ | ----------------- | --------- |
+| `ind_nifty200list.csv` | Input universe                             | ❌                 | ❌         |
+| `load_live_data.py`    | Fetch & snapshot live or cached data       | Auto-detect       | ✅         |
+| `momentum_scanner.py`  | Apply simple static filters (dry run)      | ❌                 | ❌         |
+| `live_scanner.py`      | Real-time signal generator with avg volume | ✅ (only live)     | ✅         |

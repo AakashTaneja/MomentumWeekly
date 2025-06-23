@@ -57,45 +57,81 @@ def compute_weekly_signals(data, lookback):
 
 def simulate_backtest(weekly, score, daily, lookback, top_n, thresh):
     returns, dates, cash_flags, weights_rec = [], [], [], []
-    for i in range(lookback, len(score) - 1):
+
+    for i in range(lookback, len(score)):
         signal_date = score.index[i]
-        next_mon    = signal_date + timedelta(days=3)
-        if next_mon not in daily.index:
-            continue
+        next_mon = signal_date + timedelta(days=3)
+
+        #print(f"📅 Processing signal for Friday: {signal_date.date()} → Buy on Monday: {next_mon.date()}")
 
         cur_scores = score.iloc[i].dropna()
-        top        = cur_scores.sort_values(ascending=False).head(top_n)
-        avg_score  = top.mean()
+        top = cur_scores.sort_values(ascending=False).head(top_n)
+        avg_score = top.mean()
 
         if avg_score < thresh:
-            returns.append(0.0); cash_flags.append(True)
-            dates.append(next_mon); weights_rec.append(None)
+            #print("⚠️ Score below threshold — going to cash")
+            returns.append(0.0)
+            cash_flags.append(True)
+            dates.append(next_mon)
+            weights_rec.append(None)
             continue
 
         weights = top / top.sum()
 
-        try:
-            mon_prices   = daily.loc[next_mon, weights.index]
-            nxt_idx      = daily.index.get_loc(next_mon)
-            nxt_prices   = daily.iloc[nxt_idx + 5][weights.index]
-        except Exception:
-            continue
+        # Always record the signal weights
+        weights_rec.append(weights)
+        dates.append(next_mon)
 
-        ret = (nxt_prices / mon_prices - 1).fillna(0)
-        returns.append((ret * weights).sum())
-        cash_flags.append(False); dates.append(next_mon); weights_rec.append(weights)
+        try:
+            # If we don't have prices for Monday or next week, set return = 0
+            if next_mon not in daily.index:
+                #print(f"⚠️ Monday price missing for {next_mon.date()}, skipping return calc but recording weights")
+                returns.append(0.0)
+                cash_flags.append(False)
+                continue
+
+            mon_prices = daily.loc[next_mon, weights.index]
+            nxt_idx = daily.index.get_loc(next_mon)
+
+            if nxt_idx + 5 >= len(daily):
+                #print(f"⚠️ Not enough data for exit price, skipping return but recording weights")
+                returns.append(0.0)
+                cash_flags.append(False)
+                continue
+
+            nxt_prices = daily.iloc[nxt_idx + 5][weights.index]
+            ret = (nxt_prices / mon_prices - 1).fillna(0)
+
+            returns.append((ret * weights).sum())
+            cash_flags.append(False)
+
+        except Exception as e:
+            print(f"❌ Skipping return due to error: {e}")
+            returns.append(0.0)
+            cash_flags.append(False)
 
     returns_s = pd.Series(returns, index=dates)
     cumulative = (1 + returns_s).cumprod()
+
+    print(f"\n✅ Final signal date (for Monday buy): {dates[-1] if dates else 'None'}")
     return returns_s, cumulative, cash_flags, weights_rec
 
-def generate_trading_signals(latest_wts):
+
+
+def generate_trading_signals(latest_wts, daily):
     if latest_wts is None or latest_wts.empty:
         return pd.DataFrame()
+
+    # Find the latest date for which all price data is available
+    latest_date = daily[latest_wts.index].dropna().index.max()
+    latest_prices = daily.loc[latest_date, latest_wts.index]
+
     return pd.DataFrame({
         "Stock": latest_wts.index,
+        "Price": latest_prices.values.round(2),
         "Final Desired Weight %": (latest_wts.values * 100).round(2)
     })
+
 
 # -----------------------------------------------------------------------------
 #  Plot & email helpers (unchanged, except CAGR label placeholder)
@@ -151,7 +187,7 @@ if __name__ == "__main__":
         print("📥 Loading tickers …")
         tickers = pd.read_csv("ind_nifty200list.csv")["Symbol"].str.upper().tolist()
 
-        print("📊 Loading price data …")
+        print(f"📊 Loading price data from {start_date} to {end_date} …")
         daily = load_local_price_data(tickers, start_date, end_date)
 
         print("📈 Computing signals …")
@@ -162,7 +198,7 @@ if __name__ == "__main__":
         )
 
         latest_wts   = weights_rec[-1]
-        signals_tbl  = generate_trading_signals(latest_wts)
+        signals_tbl = generate_trading_signals(latest_wts, daily)
         log_run(weights_rec, daily, returns)
 
         # --- Exact-span CAGR ---

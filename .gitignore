@@ -162,6 +162,7 @@ cython_debug/
 config/keys.py
 access_token.txt
 ind_nifty200list.csv
+ltp_snapshot_last.csv
 data/*.*
 *.png
 logs/*.*
