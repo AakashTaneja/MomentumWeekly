@@ -27,12 +27,16 @@ def get_token(symbol):
     row = instruments_df[instruments_df['tradingsymbol'] == symbol]
     return row['instrument_token'].values[0] if not row.empty else None
 
-def get_10day_avg_volume(token):
-    end = dt.date.today()
-    start = end - dt.timedelta(days=14)
-    data = kite.historical_data(token, from_date=start, to_date=end, interval="day")
-    volumes = [bar['volume'] for bar in data if bar['volume'] > 0]
-    return sum(volumes[-10:]) / len(volumes[-10:]) if len(volumes) >= 5 else 0
+def get_10day_avg_volume(kite, instrument_token, lookback_days=10):
+    today = dt.date.today()
+    end = today - dt.timedelta(days=1)  # Exclude today
+    start = end - dt.timedelta(days=lookback_days)
+    data = kite.historical_data(instrument_token, from_date=start, to_date=end, interval="day")
+    volumes = [d['volume'] for d in data if 'volume' in d]
+    return sum(volumes) / len(volumes) if volumes else 0
+
+
+
 
 def is_market_open():
     now = dt.datetime.now()
