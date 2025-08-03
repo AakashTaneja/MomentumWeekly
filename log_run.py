@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from datetime import datetime
 
 LOG_DIR = "./logs"
@@ -13,6 +14,8 @@ def log_run(weights_record, daily_data, returns_series):
     starting_value = 100.0
     portfolio_value = starting_value
 
+    final_week_table = None  # will hold last week's table for email
+
     with open(log_file, "w") as f:
         f.write("📊 Weekly Momentum Strategy Log\n")
         f.write(f"Run Timestamp: {datetime.now()}\n\n")
@@ -25,7 +28,6 @@ def log_run(weights_record, daily_data, returns_series):
                 f.write(f"💤 Week {i + 1}: No positions (cash week)\n\n")
                 continue
 
-            # === Portfolio change summary ===
             week_date = returns_series.index[i]
             f.write(f"📅 Week {i + 1} | Signal Date: {week_date.date()}\n")
 
@@ -40,6 +42,8 @@ def log_run(weights_record, daily_data, returns_series):
 
             price_date = daily_data.index.asof(week_date)
             prices = daily_data.loc[price_date, all_symbols]
+
+            week_rows = []
 
             for sym in all_symbols:
                 prev_wt = prev[sym] if prev is not None and sym in prev else 0.0
@@ -58,13 +62,26 @@ def log_run(weights_record, daily_data, returns_series):
                     status = "⏸ No change"
 
                 f.write(f"{sym:<10} {prev_wt:>7.2%} {curr_wt:>7.2%} {price:>10}  {status}\n")
+
+                week_rows.append({
+                    "Symbol": sym,
+                    "PrevWt": f"{prev_wt:.2%}",
+                    "NowWt": f"{curr_wt:.2%}",
+                    "Price": f"{price:.2f}" if isinstance(price, (float, int)) else price,
+                    "Change": status
+                })
+
             f.write("\n")
 
-            # === Track portfolio value using actual return from backtest ===
             if i < len(returns_series):
                 weekly_return = returns_series.iloc[i]
                 portfolio_value *= (1 + weekly_return)
                 pct_change = portfolio_value - starting_value
                 f.write(f"💰 Portfolio Value: {portfolio_value:.2f} ({pct_change:+.2f}%)\n\n")
 
+            # Capture the last valid week
+            final_week_table = pd.DataFrame(week_rows)
+
         f.write("✅ Log complete.\n")
+
+    return final_week_table

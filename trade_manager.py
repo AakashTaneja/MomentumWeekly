@@ -8,12 +8,12 @@ from config.keys import get_api_key
 import datetime as dt
 
 # === Configurable Parameters ===
-MIN_PCT_CHANGE = 2.0
-VOLUME_MULTIPLIER = 1.0
+MIN_PCT_CHANGE = 1.0
+VOLUME_MULTIPLIER = 1.5
 STOP_LOSS_PCT = 1.0
 EXIT_VOLUME_DROP_MULTIPLIER = 1
 AVG_VOLUME_LOOKBACK_DAYS = 10
-SCAN_INTERVAL_SECONDS = 10
+SCAN_INTERVAL_SECONDS = 90
 MAX_TRADES = 5
 CAPITAL_PER_TRADE = 20000
 TOTAL_CAPITAL = MAX_TRADES * CAPITAL_PER_TRADE
@@ -36,32 +36,63 @@ except kite_exceptions.TokenException:
     print("❌ Invalid or expired access token. Please refresh using your token generator.")
     exit()
 
+# === VWAP Calculation ===
+def calculate_intraday_vwap(kite, instrument_token):
+    from_date = dt.datetime.now().replace(hour=9, minute=15, second=0, microsecond=0)
+    to_date = dt.datetime.now()
+    try:
+        candles = kite.historical_data(
+            instrument_token,
+            from_date,
+            to_date,
+            interval="minute",
+            continuous=False
+        )
+        total_volume = 0
+        total_vwap = 0
+        for candle in candles:
+            high = candle['high']
+            low = candle['low']
+            close = candle['close']
+            volume = candle['volume']
+            typical_price = (high + low + close) / 3
+            total_vwap += typical_price * volume
+            total_volume += volume
+        if total_volume == 0:
+            return None
+        return total_vwap / total_volume
+    except Exception as e:
+        print(f"⚠️ VWAP calc error for token {instrument_token}: {e}")
+        return None
+
 # === Logging Setup ===
 start_time = dt.datetime.now()
 log_filename = f"logs/trading_{start_time.strftime('%Y%m%d_%H%M%S')}.txt"
 os.makedirs("logs", exist_ok=True)
-log_file = open(log_filename, "w")
+log_file = open(log_filename, "w", encoding="utf-8")
 
 # === Load Universe ===
 symbols_df = pd.read_csv(CSV_SYMBOL_FILE)
 symbols = symbols_df["Symbol"].dropna().unique().tolist()
 
-# === Active Trades Tracker (persist during run) ===
+# === Active Trades Tracker ===
 active_trades = {}
 realized_trades = []
 
 # === Print Strategy Info ===
 print("\n📋 Strategy Parameters:")
-print(f"🟢 Entry: pct_change > {MIN_PCT_CHANGE} and volume > {VOLUME_MULTIPLIER}x 10-day avg")
+print(f"🟢 Entry: pct_change > {MIN_PCT_CHANGE} and volume > {VOLUME_MULTIPLIER}x 10-day avg and price > VWAP")
 print(f"🔴 Exit: price <= {STOP_LOSS_PCT}% stop loss")
-print(f"🔻 Exit: volume < {EXIT_VOLUME_DROP_MULTIPLIER}x 10-day avg volume")
+print(f"🔻 Exit: volume < {EXIT_VOLUME_DROP_MULTIPLIER}x 10-day avg or price < VWAP")
 print(f"🟡 Holding: if no exit condition met")
 
 log_file.write("\n📋 Strategy Parameters:\n")
-log_file.write(f"🟢 Entry: pct_change > {MIN_PCT_CHANGE} and volume > {VOLUME_MULTIPLIER}x 10-day avg\n")
+log_file.write(f"🟢 Entry: pct_change > {MIN_PCT_CHANGE} and volume > {VOLUME_MULTIPLIER}x 10-day avg and price > VWAP\n")
 log_file.write(f"🔴 Exit: price <= {STOP_LOSS_PCT}% stop loss\n")
-log_file.write(f"🔻 Exit: volume < {EXIT_VOLUME_DROP_MULTIPLIER}x 10-day avg volume\n")
+log_file.write(f"🔻 Exit: volume < {EXIT_VOLUME_DROP_MULTIPLIER}x 10-day avg or price < VWAP\n")
 log_file.write(f"🟡 Holding: if no exit condition met\n")
+
+# 👇 Continue with your full loop and logic after this section
 
 print("\n🚀 Starting trade manager...")
 log_file.write("🚀 Starting trade manager...\n")
@@ -206,7 +237,19 @@ try:
                 capital_in_use = len(active_trades) * CAPITAL_PER_TRADE
                 pnl_pct = (total_pnl / capital_in_use) * 100 if capital_in_use > 0 else 0
                 print(f"   🔄 Total Unrealized P&L: ₹{total_pnl:.2f} ({pnl_pct:.2f}%)")
-                log_file.write(f"   🔄 Total Unrealized P&L: ₹{total_pnl:.2f} ({pnl_pct:.2f}%)\\n")
+                log_file.write(f"   🔄 Total Unrealized P&L: ₹{total_pnl:.2f} ({pnl_pct:.2f}%)\n")
+
+                # === Realized P&L So Far ===
+                if realized_trades:
+                    total_realized = sum(t['pnl'] for t in realized_trades)
+                    print(f"💰 Total Realized P&L so far: ₹{total_realized:.2f}")
+                    log_file.write(f"💰 Total Realized P&L so far: ₹{total_realized:.2f}\n")
+
+                    net_pnl = total_pnl + total_realized
+                    net_pct = (net_pnl / TOTAL_CAPITAL) * 100 if TOTAL_CAPITAL > 0 else 0
+                    print(f"🧾 Net P&L (Realized + Unrealized): ₹{net_pnl:.2f} ({net_pct:.2f}%)")
+                    log_file.write(f"🧾 Net P&L (Realized + Unrealized): ₹{net_pnl:.2f} ({net_pct:.2f}%)\n")
+
             except kite_exceptions.KiteException as e:
                 print("⚠️  Could not fetch LTP for P&L Summary.")
                 log_file.write(f"⚠️  Failed to fetch P&L LTP: {str(e)}\n")
