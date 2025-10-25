@@ -1,0 +1,297 @@
+
+Strategy Parameters:
+🟢 Entry: pct_change > 2.0%, price > VWAP, VWAP rising over last 15m, and volume ≥ 1000000
+🔴 Exit: stop loss or (price < VWAP and VWAP turning down over last 15m)
+🟡 Holding: if no exit condition met
+
+
+[2025-10-24 14:50:44] Scanning...
+⏩ Skipping AADHARHFC (volume=556785) — VWAP unreliable below 1000000
+⏩ Skipping AARTECH (volume=280764) — VWAP unreliable below 1000000
+⏩ Skipping ABINFRA (volume=823191) — VWAP unreliable below 1000000
+⏩ Skipping AEROENTER (volume=339668) — VWAP unreliable below 1000000
+⏩ Skipping ALICON (volume=5592) — VWAP unreliable below 1000000
+⏩ Skipping ANTGRAPHIC (volume=77884) — VWAP unreliable below 1000000
+⏩ Skipping ANUHPHR (volume=427827) — VWAP unreliable below 1000000
+⏩ Skipping AONELIQUID (volume=8294) — VWAP unreliable below 1000000
+⏩ Skipping APTUS (volume=805502) — VWAP unreliable below 1000000
+⏩ Skipping AROGRANITE (volume=503452) — VWAP unreliable below 1000000
+⏩ Skipping ARTNIRMAN (volume=40165) — VWAP unreliable below 1000000
+⏩ Skipping ARVEE (volume=135) — VWAP unreliable below 1000000
+⏩ Skipping ASHAPURMIN (volume=728021) — VWAP unreliable below 1000000
+⏩ Skipping BALKRISHNA (volume=14958) — VWAP unreliable below 1000000
+⏩ Skipping BHANDARI (volume=454048) — VWAP unreliable below 1000000
+⏩ Skipping CHOLAHLDNG (volume=610852) — VWAP unreliable below 1000000
+⏩ Skipping CINELINE (volume=21005) — VWAP unreliable below 1000000
+⏩ Skipping CLSEL (volume=323746) — VWAP unreliable below 1000000
+⏩ Skipping CONSOFINVT (volume=8386) — VWAP unreliable below 1000000
+⏩ Skipping CTE (volume=15249) — VWAP unreliable below 1000000
+⏩ Skipping CUMMINSIND (volume=772902) — VWAP unreliable below 1000000
+⏩ Skipping DGCONTENT (volume=4801) — VWAP unreliable below 1000000
+⏩ Skipping ELDEHSG (volume=5797) — VWAP unreliable below 1000000
+⏩ Skipping ELGIEQUIP (volume=458627) — VWAP unreliable below 1000000
+⏩ Skipping ELIN (volume=66515) — VWAP unreliable below 1000000
+⏩ Skipping FCL (volume=749431) — VWAP unreliable below 1000000
+⏩ Skipping FISCHER (volume=598883) — VWAP unreliable below 1000000
+⏩ Skipping GRWRHITECH (volume=626488) — VWAP unreliable below 1000000
+⏩ Skipping GTECJAINX (volume=22511) — VWAP unreliable below 1000000
+⏩ Skipping GVT&D (volume=338755) — VWAP unreliable below 1000000
+⏩ Skipping HGS (volume=29340) — VWAP unreliable below 1000000
+⏩ Skipping HISARMETAL (volume=6337) — VWAP unreliable below 1000000
+⏩ Skipping IFBAGRO (volume=154268) — VWAP unreliable below 1000000
+⏩ Skipping INDTERRAIN (volume=15139) — VWAP unreliable below 1000000
+⏩ Skipping INFOBEAN (volume=50828) — VWAP unreliable below 1000000
+⏩ Skipping INTELLECT (volume=269649) — VWAP unreliable below 1000000
+⏩ Skipping JAIPURKURT (volume=9015) — VWAP unreliable below 1000000
+⏩ Skipping JASH (volume=85591) — VWAP unreliable below 1000000
+⏩ Skipping JKIPL (volume=528531) — VWAP unreliable below 1000000
+⏩ Skipping KAMDHENU (volume=707610) — VWAP unreliable below 1000000
+⏩ Skipping KAPSTON (volume=116840) — VWAP unreliable below 1000000
+⏩ Skipping KMEW (volume=35120) — VWAP unreliable below 1000000
+⏩ Skipping MAANALU (volume=922079) — VWAP unreliable below 1000000
+⏩ Skipping MBEL (volume=737976) — VWAP unreliable below 1000000
+⏩ Skipping MEGASOFT (volume=943666) — VWAP unreliable below 1000000
+⏩ Skipping MODTHREAD (volume=2233) — VWAP unreliable below 1000000
+⏩ Skipping MOM30IETF (volume=783752) — VWAP unreliable below 1000000
+⏩ Skipping MOREALTY (volume=352354) — VWAP unreliable below 1000000
+⏩ Skipping NAGREEKEXP (volume=7620) — VWAP unreliable below 1000000
+⏩ Skipping OAL (volume=36247) — VWAP unreliable below 1000000
+⏩ Skipping OSWALAGRO (volume=159190) — VWAP unreliable below 1000000
+⏩ Skipping PANSARI (volume=940) — VWAP unreliable below 1000000
+⏩ Skipping PENINLAND (volume=461446) — VWAP unreliable below 1000000
+⏩ Skipping PNGJL (volume=267110) — VWAP unreliable below 1000000
+⏩ Skipping PONNIERODE (volume=86901) — VWAP unreliable below 1000000
+⏩ Skipping RMDRIP (volume=567667) — VWAP unreliable below 1000000
+⏩ Skipping ROML (volume=497121) — VWAP unreliable below 1000000
+⏩ Skipping SCHNEIDER (volume=178651) — VWAP unreliable below 1000000
+⏩ Skipping SECMARK (volume=1897) — VWAP unreliable below 1000000
+⏩ Skipping SHARDACROP (volume=683797) — VWAP unreliable below 1000000
+⏩ Skipping SIGNATURE (volume=542612) — VWAP unreliable below 1000000
+⏩ Skipping SMSPHARMA (volume=565402) — VWAP unreliable below 1000000
+⏩ Skipping STLTECH (volume=976988) — VWAP unreliable below 1000000
+⏩ Skipping SURYODAY (volume=470849) — VWAP unreliable below 1000000
+⏩ Skipping SUVEN (volume=135736) — VWAP unreliable below 1000000
+⏩ Skipping SVLL (volume=10097) — VWAP unreliable below 1000000
+⏩ Skipping SVPGLOB (volume=205821) — VWAP unreliable below 1000000
+⏩ Skipping TEXINFRA (volume=238488) — VWAP unreliable below 1000000
+⏩ Skipping THANGAMAYL (volume=50358) — VWAP unreliable below 1000000
+⏩ Skipping THERMAX (volume=72069) — VWAP unreliable below 1000000
+⏩ Skipping TIJARIA (volume=13661) — VWAP unreliable below 1000000
+⏩ Skipping TOKYOPLAST (volume=1959) — VWAP unreliable below 1000000
+⏩ Skipping TREJHARA (volume=20863) — VWAP unreliable below 1000000
+⏩ Skipping UNITEDTEA (volume=7617) — VWAP unreliable below 1000000
+⏩ Skipping UTIAMC (volume=175348) — VWAP unreliable below 1000000
+⏩ Skipping VALIANTLAB (volume=14689) — VWAP unreliable below 1000000
+⏩ Skipping VASWANI (volume=890654) — VWAP unreliable below 1000000
+⏩ Skipping VETO (volume=182348) — VWAP unreliable below 1000000
+⏩ Skipping VSTTILLERS (volume=57648) — VWAP unreliable below 1000000
+🟢 Entry: UTKARSHBNK | Price ₹21.86 | VWAP ₹20.86 | VWAP-15m 20.74 | %Chg 19.13% | Volume 123382587 (≥ 1000000) | Score 16.27
+🟢 Entry: ARROWGREEN | Price ₹655.80 | VWAP ₹633.87 | VWAP-15m 632.44 | %Chg 18.85% | Volume 1887204 (≥ 1000000) | Score 15.77
+🟢 Entry: EPACKPEB | Price ₹267.19 | VWAP ₹259.76 | VWAP-15m 259.12 | %Chg 11.79% | Volume 67139475 (≥ 1000000) | Score 10.00
+🟢 Entry: VERANDA | Price ₹255.91 | VWAP ₹249.99 | VWAP-15m 249.53 | %Chg 9.36% | Volume 1606850 (≥ 1000000) | Score 7.96
+🟢 Entry: SCI | Price ₹269.04 | VWAP ₹264.62 | VWAP-15m 264.44 | %Chg 8.48% | Volume 51470937 (≥ 1000000) | Score 7.12
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.84 | VWAP ₹20.86 | VWAP-15m ₹20.74 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹655.65 | VWAP ₹633.87 | VWAP-15m ₹632.44 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.62 | VWAP ₹259.76 | VWAP-15m ₹259.12 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.91 | VWAP ₹249.99 | VWAP-15m ₹249.53 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.20 | VWAP ₹264.62 | VWAP-15m ₹264.44 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.84 | P&L ₹-18.28 (-0.09%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹655.65 | P&L ₹-4.50 (-0.02%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.62 | P&L ₹31.82 (0.16%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.91 | P&L ₹0.00 (0.00%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.20 | P&L ₹11.84 (0.06%)
+
+🔵 Unrealized P&L: ₹20.88 (0.02%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹20.88 (0.02%)
+
+[2025-10-24 14:51:22] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.85 | VWAP ₹20.86 | VWAP-15m ₹20.74 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹654.90 | VWAP ₹633.87 | VWAP-15m ₹632.44 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹268.20 | VWAP ₹259.76 | VWAP-15m ₹259.12 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.81 | VWAP ₹249.99 | VWAP-15m ₹249.53 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.30 | VWAP ₹264.62 | VWAP-15m ₹264.44 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.85 | P&L ₹-9.14 (-0.05%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹654.90 | P&L ₹-27.00 (-0.14%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹268.20 | P&L ₹74.74 (0.38%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.81 | P&L ₹-7.80 (-0.04%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.30 | P&L ₹19.24 (0.10%)
+
+🔵 Unrealized P&L: ₹50.04 (0.05%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹50.04 (0.05%)
+
+[2025-10-24 14:51:52] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.85 | VWAP ₹20.86 | VWAP-15m ₹20.74 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹652.75 | VWAP ₹633.87 | VWAP-15m ₹632.44 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.74 | VWAP ₹259.76 | VWAP-15m ₹259.12 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.57 | VWAP ₹249.99 | VWAP-15m ₹249.53 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.50 | VWAP ₹264.62 | VWAP-15m ₹264.44 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.85 | P&L ₹-9.14 (-0.05%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹652.75 | P&L ₹-91.50 (-0.47%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.74 | P&L ₹40.70 (0.21%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.57 | P&L ₹-26.52 (-0.13%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.50 | P&L ₹34.04 (0.17%)
+
+🔵 Unrealized P&L: ₹-52.42 (-0.05%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹-52.42 (-0.05%)
+
+[2025-10-24 14:52:23] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.94 | VWAP ₹20.86 | VWAP-15m ₹20.74 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹653.80 | VWAP ₹633.87 | VWAP-15m ₹632.44 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.86 | VWAP ₹259.76 | VWAP-15m ₹259.12 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.43 | VWAP ₹249.99 | VWAP-15m ₹249.53 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.37 | VWAP ₹264.62 | VWAP-15m ₹264.44 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.94 | P&L ₹73.12 (0.37%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹653.80 | P&L ₹-60.00 (-0.30%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.86 | P&L ₹49.58 (0.25%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.43 | P&L ₹-37.44 (-0.19%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.37 | P&L ₹24.42 (0.12%)
+
+🔵 Unrealized P&L: ₹49.68 (0.05%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹49.68 (0.05%)
+
+[2025-10-24 14:52:53] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.88 | VWAP ₹20.86 | VWAP-15m ₹20.74 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹654.80 | VWAP ₹633.87 | VWAP-15m ₹632.44 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.99 | VWAP ₹259.76 | VWAP-15m ₹259.12 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹256.97 | VWAP ₹249.99 | VWAP-15m ₹249.53 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.27 | VWAP ₹264.62 | VWAP-15m ₹264.44 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.88 | P&L ₹18.28 (0.09%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹654.80 | P&L ₹-30.00 (-0.15%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.99 | P&L ₹59.20 (0.30%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹256.97 | P&L ₹82.68 (0.41%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.27 | P&L ₹17.02 (0.09%)
+
+🔵 Unrealized P&L: ₹147.18 (0.15%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹147.18 (0.15%)
+
+[2025-10-24 14:53:23] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.90 | VWAP ₹20.86 | VWAP-15m ₹20.74 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹655.00 | VWAP ₹633.87 | VWAP-15m ₹632.44 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.82 | VWAP ₹259.76 | VWAP-15m ₹259.12 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.93 | VWAP ₹249.99 | VWAP-15m ₹249.53 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.19 | VWAP ₹264.62 | VWAP-15m ₹264.44 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.90 | P&L ₹36.56 (0.18%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹655.00 | P&L ₹-24.00 (-0.12%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.82 | P&L ₹46.62 (0.24%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.93 | P&L ₹1.56 (0.01%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.19 | P&L ₹11.10 (0.06%)
+
+🔵 Unrealized P&L: ₹71.84 (0.07%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹71.84 (0.07%)
+
+[2025-10-24 14:53:53] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.90 | VWAP ₹20.87 | VWAP-15m ₹20.75 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹655.95 | VWAP ₹634.10 | VWAP-15m ₹633.15 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.75 | VWAP ₹259.81 | VWAP-15m ₹259.27 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.94 | VWAP ₹250.03 | VWAP-15m ₹249.58 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹269.38 | VWAP ₹264.64 | VWAP-15m ₹264.47 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.90 | P&L ₹36.56 (0.18%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹655.95 | P&L ₹4.50 (0.02%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.75 | P&L ₹41.44 (0.21%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.94 | P&L ₹2.34 (0.01%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹269.38 | P&L ₹25.16 (0.13%)
+
+🔵 Unrealized P&L: ₹110.00 (0.11%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹110.00 (0.11%)
+
+[2025-10-24 14:54:24] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.90 | VWAP ₹20.87 | VWAP-15m ₹20.75 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹653.40 | VWAP ₹634.10 | VWAP-15m ₹633.15 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.60 | VWAP ₹259.81 | VWAP-15m ₹259.27 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.91 | VWAP ₹250.03 | VWAP-15m ₹249.58 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹270.48 | VWAP ₹264.64 | VWAP-15m ₹264.47 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.90 | P&L ₹36.56 (0.18%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹653.40 | P&L ₹-72.00 (-0.37%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.60 | P&L ₹30.34 (0.15%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.91 | P&L ₹0.00 (0.00%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹270.48 | P&L ₹106.56 (0.54%)
+
+🔵 Unrealized P&L: ₹101.46 (0.10%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹101.46 (0.10%)
+
+[2025-10-24 14:54:54] Scanning...
+
+ Holding: UTKARSHBNK | Entry ₹21.86 | LTP ₹21.90 | VWAP ₹20.87 | VWAP-15m ₹20.75 | Trend ⬆️ rising
+
+ Holding: ARROWGREEN | Entry ₹655.80 | LTP ₹654.50 | VWAP ₹634.10 | VWAP-15m ₹633.15 | Trend ⬆️ rising
+
+ Holding: EPACKPEB | Entry ₹267.19 | LTP ₹267.50 | VWAP ₹259.81 | VWAP-15m ₹259.27 | Trend ⬆️ rising
+
+ Holding: VERANDA | Entry ₹255.91 | LTP ₹255.74 | VWAP ₹250.03 | VWAP-15m ₹249.58 | Trend ⬆️ rising
+
+ Holding: SCI | Entry ₹269.04 | LTP ₹270.40 | VWAP ₹264.64 | VWAP-15m ₹264.47 | Trend ⬆️ rising
+
+ P&L Summary:
+  UTKARSHBNK: Qty=914 | Entry ₹21.86 | LTP ₹21.90 | P&L ₹36.56 (0.18%)
+  ARROWGREEN: Qty=30 | Entry ₹655.80 | LTP ₹654.50 | P&L ₹-39.00 (-0.20%)
+  EPACKPEB: Qty=74 | Entry ₹267.19 | LTP ₹267.50 | P&L ₹22.94 (0.12%)
+  VERANDA: Qty=78 | Entry ₹255.91 | LTP ₹255.74 | P&L ₹-13.26 (-0.07%)
+  SCI: Qty=74 | Entry ₹269.04 | LTP ₹270.40 | P&L ₹100.64 (0.51%)
+
+🔵 Unrealized P&L: ₹107.88 (0.11%)
+🔴 Realized P&L: ₹0.00 (0.00%)
+🔄 Total P&L: ₹107.88 (0.11%)

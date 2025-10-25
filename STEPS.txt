@@ -1,4 +1,5 @@
 1. Run kite_generate_request_url.py, login and copy 'request_token' from url.
 2. Run kite_convert_token, provide request_token (access_token is available for a day.)
-3. Run kite_download_data to get data since last run.
-4. Run send_weekly_momentum_signal to send signal in email.
+3. Refresh ind_nifty200list.csv https://www.nseindia.com/index-tracker/NIFTY%20200
+4. Run kite_download_data to get data since last run.
+5. Run send_weekly_momentum_signal to send signal in email.

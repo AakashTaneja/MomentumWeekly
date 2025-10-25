@@ -1,0 +1,22 @@
+
+[2025-10-20 11:52:18] Scanning for new trades and monitoring active positions...
+📊 Stocks up >1.0%: 367
+🟢 Entry: 360ONE | Price ₹1179.80 | VWAP ₹1175.70 | %Chg 1.27%
+🟢 Entry: 3PLAND | Price ₹41.70 | VWAP ₹41.43 | %Chg 4.09%
+🟢 Entry: ABCOTS | Price ₹399.80 | VWAP ₹394.72 | %Chg 3.31%
+🟢 Entry: ABDL | Price ₹573.35 | VWAP ₹569.88 | %Chg 3.46%
+🟢 Entry: ABSLNN50ET | Price ₹72.83 | VWAP ₹72.68 | %Chg 1.14%
+🟡 Holding: 360ONE | Entry ₹1179.80 | LTP ₹1180.00 | VWAP ₹1175.70
+🟡 Holding: 3PLAND | Entry ₹41.70 | LTP ₹41.70 | VWAP ₹41.43
+🟡 Holding: ABCOTS | Entry ₹399.80 | LTP ₹399.80 | VWAP ₹394.72
+🟡 Holding: ABDL | Entry ₹573.35 | LTP ₹573.35 | VWAP ₹569.88
+🟡 Holding: ABSLNN50ET | Entry ₹72.83 | LTP ₹72.83 | VWAP ₹72.68
+
+💰 P&L Summary:
+   360ONE: Qty=16 | Entry ₹1179.80 | LTP ₹1180.30 | P&L ₹8.00
+   3PLAND: Qty=479 | Entry ₹41.70 | LTP ₹41.70 | P&L ₹0.00
+   ABCOTS: Qty=50 | Entry ₹399.80 | LTP ₹399.80 | P&L ₹0.00
+   ABDL: Qty=34 | Entry ₹573.35 | LTP ₹573.35 | P&L ₹0.00
+   ABSLNN50ET: Qty=274 | Entry ₹72.83 | LTP ₹72.83 | P&L ₹0.00
+   🔄 Total Unrealized P&L: ₹8.00 (0.01%)
+📝 Active Trades: 5 | Capital in Use: ₹100000

@@ -1,0 +1,32 @@
+{
+  "UTKARSHBNK": {
+    "entry_price": 21.86,
+    "qty": 914,
+    "entry_time": "2025-10-24 14:50:44",
+    "token": "4443649"
+  },
+  "ARROWGREEN": {
+    "entry_price": 655.8,
+    "qty": 30,
+    "entry_time": "2025-10-24 14:50:44",
+    "token": "2370561"
+  },
+  "EPACKPEB": {
+    "entry_price": 267.19,
+    "qty": 74,
+    "entry_time": "2025-10-24 14:50:44",
+    "token": "194368257"
+  },
+  "VERANDA": {
+    "entry_price": 255.91,
+    "qty": 78,
+    "entry_time": "2025-10-24 14:50:44",
+    "token": "2275841"
+  },
+  "SCI": {
+    "entry_price": 269.04,
+    "qty": 74,
+    "entry_time": "2025-10-24 14:50:44",
+    "token": "780289"
+  }
+}

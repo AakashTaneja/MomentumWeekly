@@ -1,0 +1,9 @@
+
+📋 Strategy Parameters:
+🟢 Entry: pct_change > 1.0% and price > VWAP
+🔴 Exit: price <= 1.0% stop loss or price < VWAP
+🟡 Holding: if no exit condition met
+
+🚀 Starting VWAP-based trade manager...
+
+[2025-10-20 11:44:14] Scanning for new trades and monitoring active positions...

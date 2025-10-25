@@ -1,0 +1,32 @@
+{
+  "HYBRIDFIN": {
+    "entry_price": 28.2,
+    "qty": 709,
+    "entry_time": "2025-10-20 14:08:12",
+    "token": "3279105"
+  },
+  "GSLSU": {
+    "entry_price": 106.31,
+    "qty": 188,
+    "entry_time": "2025-10-20 14:08:12",
+    "token": "3737345"
+  },
+  "SURAJLTD": {
+    "entry_price": 340.0,
+    "qty": 58,
+    "entry_time": "2025-10-20 14:08:12",
+    "token": "6391297"
+  },
+  "INDORAMA": {
+    "entry_price": 69.68,
+    "qty": 287,
+    "entry_time": "2025-10-20 14:08:12",
+    "token": "2814209"
+  },
+  "CEATLTD": {
+    "entry_price": 4174.0,
+    "qty": 4,
+    "entry_time": "2025-10-20 14:29:31",
+    "token": "3905025"
+  }
+}

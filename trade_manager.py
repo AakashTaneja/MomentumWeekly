@@ -18,6 +18,8 @@ MAX_TRADES = 5
 CAPITAL_PER_TRADE = 20000
 TOTAL_CAPITAL = MAX_TRADES * CAPITAL_PER_TRADE
 CSV_SYMBOL_FILE = "ind_nifty200list.csv"
+#CSV_SYMBOL_FILE = os.path.join( "data", "tickers", "nse_all_tickers.csv")
+
 ACCESS_TOKEN_PATH = "access_token.txt"
 CONSIDER_LIVE_TRADES = False  # consider previous trades
 
